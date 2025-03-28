@@ -51,7 +51,7 @@
                                 <span class="text-gray-600">Progress</span>
                                 <span class="text-gray-900 font-medium">
                                     {{ formatEther(proposal.currentFunding) }} / {{ formatEther(proposal.fundingGoal) }}
-                                    XFI
+                                    HBAR
                                 </span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2.5">
@@ -117,7 +117,7 @@
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Funding Goal
-                                        (XFI)</label>
+                                        (HBAR)</label>
                                     <input v-model="proposalForm.fundingGoal" type="number" step="0.01" required
                                         class="w-full rounded-lg border border-gray-300 px-3 py-2" />
                                 </div>

@@ -13,7 +13,7 @@
                         </div>
                         <div class="text-center">
                             <h3 class="text-lg font-medium text-gray-900">Token Price</h3>
-                            <p class="mt-2 text-2xl font-bold text-blue-600">{{ formatEth(tokenPrice) }} XFI</p>
+                            <p class="mt-2 text-2xl font-bold text-blue-600">{{ formatEth(tokenPrice) }} HBAR</p>
                         </div>
                         <div class="text-center">
                             <h3 class="text-lg font-medium text-gray-900">Total Sold</h3>
@@ -42,7 +42,7 @@
                             <div class="flex space-x-2">
                                 <input v-model="newTokenPrice" type="number" step="0.000001" min="0"
                                     class="flex-1 rounded-lg border border-gray-300 px-3 py-2"
-                                    placeholder="New price in XFI" />
+                                    placeholder="New price in HBAR" />
                                 <button @click="updateTokenPrice"
                                     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                                     :disabled="isSubmitting || !newTokenPrice">
@@ -58,7 +58,7 @@
                                 <button @click="withdrawETH"
                                     class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                                     :disabled="isSubmitting">
-                                    Withdraw XFI
+                                    Withdraw HBAR
                                 </button>
                                 <button @click="withdrawTokens"
                                     class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
@@ -79,11 +79,11 @@
                     <form v-else @submit.prevent="buyTokens" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Amount in XFI
+                                Amount in HBAR
                             </label>
                             <input v-model="ethAmount" type="number" step="0.01" min="0"
                                 class="w-full rounded-lg border border-gray-300 px-3 py-2"
-                                placeholder="Enter XFI amount" required />
+                                placeholder="Enter HBAR amount" required />
                         </div>
                         <div class="text-sm text-gray-600">
                             You will receive: {{ calculateTokens }} tokens
@@ -101,7 +101,7 @@
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Your Investment</h3>
                     <div v-if="userAccount" class="space-y-2">
                         <p class="text-gray-600">Address: {{ truncateAddress(userAccount) }}</p>
-                        <p class="text-gray-600">Investment Amount: {{ formatEth(investmentAmount) }} XFI</p>
+                        <p class="text-gray-600">Investment Amount: {{ formatEth(investmentAmount) }} HBAR</p>
                     </div>
                     <div v-else class="text-center py-6 bg-gray-50 rounded-lg">
                         <p class="text-gray-600">Please connect your wallet to view your investment</p>
