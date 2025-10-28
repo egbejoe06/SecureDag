@@ -1,65 +1,47 @@
 import { createRouter, createWebHistory } from "vue-router";
-import welcomepage from "../view/LandingPage.vue";
-import PublishResearch from "../view/PublishResearch.vue";
-import ResearchFeed from "../view/ResearchFeed.vue";
-import ResearchDetails from "../view/ResearchDetails.vue";
-import QuestionFeed from "../view/QuestionFeed.vue";
-import QuestionDetail from "../view/QuestionDetail.vue";
-import Proposal from "../view/Proposal.vue";
-import ICO from "../view/ICO.vue";
-import GroupPage from "../view/GroupPage.vue";
-import ChatPage from "../view/ChatPage.vue";
+import LandingPage from "../view/LandingPage.vue";
+import Dashboard from "../view/Dashboard.vue";
+import MyFiles from "../view/MyFiles.vue";
+import SharedWithMe from "../view/SharedWithMe.vue";
+import Settings from "../view/Settings.vue";
+import ProviderRegistry from "../view/ProviderRegistry.vue";
+import IPVerification from "../view/IPVerification.vue";
 
 const routes = [
   {
     path: "/",
     name: "LandingPage",
-    component: welcomepage,
+    component: LandingPage,
   },
   {
-    path: "/Publish",
-    name: "PublishResearch",
-    component: PublishResearch,
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
   },
   {
-    path: "/Research",
-    name: "ResearchFeed",
-    component: ResearchFeed,
+    path: "/my-files",
+    name: "MyFiles",
+    component: MyFiles,
   },
   {
-    path: "/research/:id",
-    name: "ResearchDetail",
-    component: ResearchDetails,
+    path: "/shared",
+    name: "SharedWithMe",
+    component: SharedWithMe,
   },
   {
-    path: "/Question",
-    name: "QuestionFeed",
-    component: QuestionFeed,
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
   },
   {
-    path: "/question/:id",
-    name: "QuestionDetail",
-    component: QuestionDetail,
+    path: "/provider-registry",
+    name: "ProviderRegistry",
+    component: ProviderRegistry,
   },
   {
-    path: "/Proposals",
-    name: "Proposal",
-    component: Proposal,
-  },
-  {
-    path: "/ICO",
-    name: "ICO",
-    component: ICO,
-  },
-  {
-    path: "/Communities",
-    name: "GroupPage",
-    component: GroupPage,
-  },
-  {
-    path: "/chat/:id",
-    name: "ChatPage",
-    component: ChatPage,
+    path: "/ip-verification",
+    name: "IPVerification",
+    component: IPVerification,
   },
 ];
 

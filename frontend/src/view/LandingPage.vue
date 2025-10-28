@@ -1,296 +1,226 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <NavBar />
-        <!-- Hero Section with animated gradient -->
-        <header class="relative pt-32 pb-24 overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800"></div>
-            <div class="absolute inset-0 opacity-10">
-            </div>
-            <div class="relative max-w-7xl mx-auto px-6 text-center">
-                <h2 class="text-5xl md:text-6xl font-bold text-white leading-tight">
-                    Decentralized Academic
-                    <span class="block mt-2">Platform for the Future</span>
-                </h2>
-                <p class="mt-6 text-xl text-blue-100 max-w-2xl mx-auto">
-                    Empowering researchers and educators through blockchain technology. Join the revolution in academic
-                    publishing and learning.
-                </p>
-                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-                    <button
-                        class="px-8 py-4 bg-white text-blue-600 rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                        <div class="flex items-center justify-center space-x-2">
-                            <Rocket class="w-5 h-5" />
-                            <span>Get Started</span>
-                        </div>
-                    </button>
-                    <button
-                        class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold hover:bg-white/10 transition-all duration-200">
-                        <div class="flex items-center justify-center space-x-2">
-                            <Info class="w-5 h-5" />
-                            <router-link :to="{ name: 'ICO' }">
-                                <span>ICO</span></router-link>
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Features Section with hover cards -->
-        <section class="py-24 px-6 bg-white">
-            <div class="max-w-7xl mx-auto">
-                <h3 class="text-4xl font-bold text-center text-gray-900">
-                    Revolutionizing Academia
-                </h3>
-                <p class="mt-4 text-xl text-gray-600 text-center max-w-2xl mx-auto">
-                    Experience the future of academic research and education with our innovative blockchain-powered
-                    features.
-                </p>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
-                    <!-- Feature Cards with hover effects -->
-                    <div
-                        class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                        <div
-                            class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                            <BookCopy
-                                class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                        </div>
-                        <h4
-                            class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                            NFT-Based Research
-                        </h4>
-                        <p class="mt-4 text-gray-600 leading-relaxed">
-                            Publish and monetize your research as NFTs, ensuring immutable ownership and transparent
-                            citation tracking.
-                        </p>
-                    </div>
-
-                    <div
-                        class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                        <div
-                            class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                            <Users
-                                class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                        </div>
-                        <h4
-                            class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                            Peer Review System
-                        </h4>
-                        <p class="mt-4 text-gray-600 leading-relaxed">
-                            Participate in our decentralized peer review system and earn DST tokens for quality reviews.
-                        </p>
-                    </div>
-
-                    <div
-                        class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                        <div
-                            class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                            <Coins
-                                class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                        </div>
-                        <h4
-                            class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                            Research Funding
-                        </h4>
-                        <p class="mt-4 text-gray-600 leading-relaxed">
-                            Create funding proposals and receive support directly from the academic community.
-                        </p>
-                    </div>
-
-                    <div
-                        class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                        <div
-                            class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                            <GraduationCap
-                                class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                        </div>
-                        <h4
-                            class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                            Group Discussions
-                        </h4>
-                        <p class="mt-4 text-gray-600 leading-relaxed">
-                            Engage in real-time discussions and Q&A sessions within your communities.
-                        </p>
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <!-- Hero Section -->
+        <div class="relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                        SecureDAG
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                        Decentralized, encrypted file storage on Hedera Hashgraph.
+                        Your data, your keys, your control.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button @click="connectWallet" :disabled="isConnecting"
+                            class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+                            <WalletIcon class="w-5 h-5 mr-2" />
+                            {{ isConnecting ? 'Connecting...' : 'Connect Wallet' }}
+                        </button>
+                        <button @click="scrollToFeatures"
+                            class="inline-flex items-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <InformationCircleIcon class="w-5 h-5 mr-2" />
+                            Learn More
+                        </button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Call to Action with gradient overlay -->
-        <section class="relative py-24 bg-gray-900">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-blue-900/20"></div>
-            <div class="relative max-w-4xl mx-auto px-6 text-center">
-                <h3 class="text-4xl font-bold text-white">Join DeScholar Today</h3>
-                <p class="mt-6 text-xl text-gray-300 leading-relaxed">
-                    Connect your wallet and become part of the fastest-growing decentralized academic community. Start
-                    publishing, reviewing, and earning today.
-                </p>
-                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-6">
-                    <button
-                        class="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 hover:bg-blue-700">
-                        <div class="flex items-center justify-center space-x-2">
-                            <Wallet class="w-5 h-5" />
-                            <span>Connect Wallet</span>
-                        </div>
-                    </button>
-                    <a href="#" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center space-x-2">
-                        <span>Learn more about DST tokens</span>
-                        <ArrowRight class="w-4 h-4" />
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-gray-800 py-12 px-6">
-            <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 text-gray-400">
-                <div>
-                    <div class="flex items-center space-x-2 text-white mb-4">
-                        <GraduationCap class="w-6 h-6" />
-                        <h4 class="font-semibold">DeScholar</h4>
-                    </div>
-                    <p class="text-sm">
-                        Revolutionizing academic publishing and education through blockchain technology.
+        <!-- Features Section -->
+        <div id="features" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Why Choose SecureDAG?
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Built on Hedera Hashgraph for enterprise-grade security and performance
                     </p>
                 </div>
-                <div>
-                    <h5 class="text-white font-semibold mb-4">Quick Links</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <ChevronRight class="w-4 h-4" />
-                                <span>Research</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <ChevronRight class="w-4 h-4" />
-                                <span>Courses</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <ChevronRight class="w-4 h-4" />
-                                <span>Community</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-white font-semibold mb-4">Resources</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <FileText class="w-4 h-4" />
-                                <span>Documentation</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <Code2 class="w-4 h-4" />
-                                <span>API</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <HelpCircle class="w-4 h-4" />
-                                <span>Support</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-white font-semibold mb-4">Connect</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <Twitter class="w-4 h-4" />
-                                <span>Twitter</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <MessageCircle class="w-4 h-4" />
-                                <span>Discord</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-white transition-colors flex items-center space-x-2">
-                                <Github class="w-4 h-4" />
-                                <span>GitHub</span>
-                            </a>
-                        </li>
-                    </ul>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="text-center">
+                        <div
+                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                            <ShieldCheckIcon class="h-6 w-6" />
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">End-to-End Encryption</h3>
+                        <p class="text-gray-600">
+                            Your files are encrypted client-side using TweetNaCl before being stored on IPFS.
+                            Only you have the keys.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="text-center">
+                        <div
+                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white mb-4">
+                            <BoltIcon class="h-6 w-6" />
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Lightning Fast</h3>
+                        <p class="text-gray-600">
+                            Hedera Hashgraph provides fast finality and low fees, making file operations
+                            quick and cost-effective.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="text-center">
+                        <div
+                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white mb-4">
+                            <GlobeAltIcon class="h-6 w-6" />
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Decentralized</h3>
+                        <p class="text-gray-600">
+                            No single point of failure. Your data is distributed across the IPFS network
+                            and secured by Hedera's consensus.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </footer>
+        </div>
+
+        <!-- Modules Section -->
+        <div class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Specialized Modules
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Tailored solutions for different types of sensitive data
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- MediVault -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="h-10 w-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <HeartIcon class="h-6 w-6 text-red-600" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">MediVault</h3>
+                                <p class="text-sm text-gray-500">Medical Records</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">
+                            Secure storage for medical files with HIPAA-compliant encryption and
+                            patient-controlled access.
+                        </p>
+                    </div>
+
+                    <!-- BioKey -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="h-10 w-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <DnaIcon class="h-6 w-6 text-green-600" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">BioKey</h3>
+                                <p class="text-sm text-gray-500">Genomic Data</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">
+                            Protect your genomic data with specialized encryption for DNA sequences
+                            and genetic information.
+                        </p>
+                    </div>
+
+                    <!-- IPSeal -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <DocumentTextIcon class="h-6 w-6 text-blue-600" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">IPSeal</h3>
+                                <p class="text-sm text-gray-500">Intellectual Property</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">
+                            Safeguard patents, trademarks, and proprietary documents with
+                            timestamped proof of ownership.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="py-20 bg-blue-600">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                    Ready to Secure Your Data?
+                </h2>
+                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                    Join the decentralized future of data storage. Connect your wallet and start
+                    protecting your files today.
+                </p>
+                <button @click="connectWallet" :disabled="isConnecting"
+                    class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50">
+                    <WalletIcon class="w-5 h-5 mr-2" />
+                    {{ isConnecting ? 'Connecting...' : 'Get Started' }}
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import {
-    GraduationCap,
-    Wallet,
-    Menu,
-    Rocket,
-    Info,
-    BookCopy,
-    Users,
-    Coins,
-    ArrowRight,
-    ChevronRight,
-    FileText,
-    Code2,
-    HelpCircle,
-    Twitter,
-    MessageCircle,
-    Github
-} from 'lucide-vue-next'
-import { ref, onMounted } from "vue";
-import NavBar from '../components/NavBar.vue';
-import { ethers } from "ethers";
-import { useWallet } from '../composable/useWallet';
+    WalletIcon,
+    InformationCircleIcon,
+    ShieldCheckIcon,
+    BoltIcon,
+    GlobeAltIcon,
+    HeartIcon,
+    DocumentTextIcon
+} from '@heroicons/vue/24/outline';
 
-const {
-    connectWallet,
-    userAccount,
-    getResearchContract,
-    connected
-} = useWallet();
-const ResearchContract = ref(null);
-const account = ref("");
+// Custom DNA icon component (since it's not in Heroicons)
+const DnaIcon = {
+    template: `
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+    `
+};
 
-const connect = async () => {
+// Reactive state
+const isConnecting = ref(false);
+
+// Methods
+const connectWallet = async () => {
+    isConnecting.value = true;
     try {
-        await connectWallet();
+        // TODO: Implement wallet connection
+        console.log('Connecting wallet...');
+        // This would typically navigate to the main app or dashboard
     } catch (error) {
         console.error('Failed to connect wallet:', error);
+    } finally {
+        isConnecting.value = false;
     }
 };
 
-function truncateAddress(walletAddress) {
-    if (!walletAddress || walletAddress.length < 10) {
-        return walletAddress; // Return as is if it's too short
-    }
-    return `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
-}
-
-onMounted(async () => {
-    try {
-        // Attempt to connect wallet first
-        await connectWallet().catch(error => {
-            console.warn("Wallet connection failed:", error);
-        });
-
-        ResearchContract.value = getResearchContract()
-
-        // Set account
-        account.value = userAccount.value;
-
-        // Only proceed if contract and account are availab
-    } catch (error) {
-        console.error("Mounted hook error:", error);
-    }
-});
-
+const scrollToFeatures = () => {
+    document.getElementById('features')?.scrollIntoView({
+        behavior: 'smooth'
+    });
+};
 </script>
+
+<style scoped>
+/* Additional component-specific styles can be added here */
+</style>
