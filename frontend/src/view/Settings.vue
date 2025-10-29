@@ -412,7 +412,6 @@ const setup = () => {
         isLoading.value = true;
         try {
             // TODO: Implement key rotation
-            console.log('Rotating keys...');
         } catch (error) {
             console.error('Failed to rotate keys:', error);
         } finally {

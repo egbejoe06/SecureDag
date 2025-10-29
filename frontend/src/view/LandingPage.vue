@@ -205,7 +205,6 @@ const connectWallet = async () => {
     isConnecting.value = true;
     try {
         // TODO: Implement wallet connection
-        console.log('Connecting wallet...');
         // This would typically navigate to the main app or dashboard
     } catch (error) {
         console.error('Failed to connect wallet:', error);

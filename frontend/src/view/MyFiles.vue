@@ -452,11 +452,6 @@ const handleUpload = async () => {
             throw new Error('IPFS hash not available');
         }
 
-        console.log('Generating file ID with:', {
-            userAccount: userAccount.value,
-            ipfsHash: ipfsResult.ipfsHash
-        });
-
         // Generate file ID locally using the same logic as the contract
         // This matches: keccak256(abi.encode(owner, cid))
         const fileId = ethers.utils.keccak256(
@@ -493,7 +488,6 @@ const handleUpload = async () => {
                         ipType.value,
                         ipDescription.value
                     );
-                    console.log('IP timestamped successfully');
                 }
             } catch (ipError) {
                 console.error('IP timestamping failed:', ipError);
@@ -580,12 +574,6 @@ const handleDownload = async (file) => {
             throw new Error('User account not available');
         }
 
-        console.log('Downloading file with:', {
-            fileId: file.id,
-            userAccount: userAccount.value,
-            fileName: file.fileName
-        });
-
         // Get file details from blockchain
         const fileDetails = await dataVaultContract.getFileInfo(file.id);
         if (!fileDetails) {
@@ -598,21 +586,13 @@ const handleDownload = async (file) => {
             throw new Error('File key not found or access denied');
         }
 
-        console.log('Encrypted file key type:', typeof encryptedFileKey);
-        console.log('Encrypted file key:', encryptedFileKey);
-        console.log('Encrypted file key constructor:', encryptedFileKey.constructor.name);
-        console.log('Is Uint8Array:', encryptedFileKey instanceof Uint8Array);
-        console.log('Is Array:', Array.isArray(encryptedFileKey));
-
         // Convert encrypted file key to Uint8Array if needed
         let encryptedFileKeyBytes;
         if (encryptedFileKey instanceof Uint8Array) {
             encryptedFileKeyBytes = encryptedFileKey;
         } else if (typeof encryptedFileKey === 'string') {
             // If it's a hex string, convert it
-            console.log('Converting hex string to Uint8Array...');
             encryptedFileKeyBytes = hexToUint8Array(encryptedFileKey);
-            console.log('Hex conversion result length:', encryptedFileKeyBytes.length);
         } else if (Array.isArray(encryptedFileKey)) {
             // If it's a regular array, convert to Uint8Array
             encryptedFileKeyBytes = new Uint8Array(encryptedFileKey);
@@ -620,24 +600,14 @@ const handleDownload = async (file) => {
             throw new Error(`Unsupported encrypted file key format: ${typeof encryptedFileKey}`);
         }
 
-        console.log('Converted encrypted file key:', encryptedFileKeyBytes);
-        console.log('Converted type:', encryptedFileKeyBytes.constructor.name);
-        console.log('Converted length:', encryptedFileKeyBytes.length);
-
         // Get user's private key for decryption
         const userKeyPair = keyStore.userKeyPair;
         if (!userKeyPair) {
             throw new Error('User encryption keys not available');
         }
 
-        console.log('User key pair available:', !!userKeyPair);
-        console.log('User X25519 secret key length:', userKeyPair.x25519.secretKey.length);
-        console.log('User X25519 public key length:', userKeyPair.x25519.publicKey.length);
-
         // Decrypt the file key
-        console.log('Attempting to decrypt file key...');
         const fileKey = decryptFileKey(encryptedFileKeyBytes, userKeyPair.x25519.secretKey);
-        console.log('File key decrypted successfully, length:', fileKey.length);
 
         // Download encrypted file from IPFS
         const encryptedFileData = await downloadFromIPFS(file.cid);
@@ -647,8 +617,6 @@ const handleDownload = async (file) => {
 
         // Trigger browser download
         downloadFile(decryptedFileData, file.fileName, file.type);
-
-        console.log('File downloaded successfully:', file.fileName);
 
     } catch (error) {
         console.error('Download failed:', error);
@@ -674,8 +642,6 @@ const closeSuccessModal = () => {
 };
 
 const handleShareFile = async (shareData) => {
-    console.log('Share file:', shareData);
-
     try {
         isLoading.value = true;
 
@@ -748,12 +714,10 @@ const closeAccessModal = () => {
 
 const handleMoreOptions = (file) => {
     // Implement more options logic
-    console.log('More options for file:', file);
 };
 
 const handleBulkShare = (files) => {
     // Implement bulk share logic
-    console.log('Bulk share files:', files);
 };
 
 const handleBulkDownload = async (files) => {
@@ -804,13 +768,7 @@ const handleBulkDownload = async (files) => {
                     continue;
                 }
 
-                console.log('Processing file:', {
-                    fileId: file.id,
-                    fileName: file.fileName,
-                    userAccount: userAccount.value
-                });
-
-                // Get file details from blockchain
+                // Access to file details from blockchain
                 const fileDetails = await dataVaultContract.getFileInfo(file.id);
                 if (!fileDetails) {
                     console.warn(`File not found on blockchain: ${file.fileName}`);
@@ -851,8 +809,6 @@ const handleBulkDownload = async (files) => {
                 // Trigger browser download
                 downloadFile(decryptedFileData, file.fileName, file.type);
 
-                console.log('File downloaded successfully:', file.fileName);
-
                 // Small delay between downloads to avoid overwhelming the browser
                 await new Promise(resolve => setTimeout(resolve, 100));
 
@@ -861,8 +817,6 @@ const handleBulkDownload = async (files) => {
                 // Continue with other files even if one fails
             }
         }
-
-        console.log(`Bulk download completed for ${files.length} files`);
 
     } catch (error) {
         console.error('Bulk download failed:', error);
@@ -1027,7 +981,6 @@ const getFileAccessList = (fileId) => {
 const refreshFileList = async () => {
     try {
         if (userAccount.value) {
-            console.log('Refreshing file list...');
             loadError.value = '';
             const files = await loadUserFiles();
 
@@ -1047,8 +1000,6 @@ const refreshFileList = async () => {
                 });
             });
 
-            console.log(`Refreshed file list with ${files.length} files`);
-
             if (files.length === 0) {
                 loadError.value = 'No files found. This could be because: 1) No files have been uploaded yet, 2) Files were uploaded more than 1000 blocks ago, or 3) There was an issue connecting to the blockchain.';
             }
@@ -1067,7 +1018,6 @@ onMounted(async () => {
 
     try {
         if (userAccount.value) {
-            console.log('Loading files for user:', userAccount.value);
             const files = await loadUserFiles();
 
             // Clear existing files and add loaded files to store
@@ -1086,13 +1036,10 @@ onMounted(async () => {
                 });
             });
 
-            console.log(`Loaded ${files.length} files from blockchain`);
-
             if (files.length === 0) {
                 loadError.value = 'No files found. This could be because: 1) No files have been uploaded yet, 2) Files were uploaded more than 1000 blocks ago, or 3) There was an issue connecting to the blockchain.';
             }
         } else {
-            console.log('No user account connected, skipping file load');
             loadError.value = 'Please connect your wallet to load files.';
         }
     } catch (error) {

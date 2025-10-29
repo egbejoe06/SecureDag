@@ -121,7 +121,6 @@ export const useWallet = () => {
   // Auto-reconnect on page load
   const autoReconnect = async () => {
     if (typeof window.ethereum === "undefined") {
-      console.log("MetaMask not detected, skipping auto-reconnect");
       return;
     }
 
@@ -131,18 +130,14 @@ export const useWallet = () => {
         method: "eth_accounts",
       });
       if (accounts.length === 0) {
-        console.log("No accounts connected, skipping auto-reconnect");
         return;
       }
-
-      console.log("Attempting auto-reconnect...");
 
       // Check if we're on the correct network
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
       const decimalChainId = parseInt(chainId, 16);
 
       if (decimalChainId !== ELECTRONEUM_CHAIN_ID) {
-        console.log("Wrong network detected, switching to Hedera Testnet...");
         // Try to switch to correct network
         await switchToElectroneum();
       }
@@ -152,10 +147,7 @@ export const useWallet = () => {
 
       // Try to restore keys from cache
       await restoreKeysFromCache();
-
-      console.log("Wallet auto-reconnected successfully");
     } catch (error) {
-      console.log("Auto-reconnect failed:", error.message);
       // Clear any partial state
       resetConnection();
       // Don't throw error - just log it, user can manually reconnect
@@ -170,9 +162,7 @@ export const useWallet = () => {
 
       await autoReconnect();
 
-      if (connected.value) {
-        console.log("Manual reconnection successful");
-      } else {
+      if (!connected.value) {
         throw new Error("Reconnection failed - wallet not connected");
       }
     } catch (error) {
@@ -201,10 +191,7 @@ export const useWallet = () => {
       keyStore.setKeyVersion(keyDerivationResult.version);
 
       await checkKeyRegistration();
-
-      console.log("Keys restored from cache successfully");
     } catch (error) {
-      console.log("Failed to restore keys from cache:", error.message);
       clearCachedKeyDerivationSignature(userAccount.value);
     }
   };
@@ -510,13 +497,10 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Loading files for user:", userAccount.value);
-
       // Directly get user's file IDs from the mapping
       const fileIds = await DataVaultContractInstance.getUserFiles(
         userAccount.value
       );
-      console.log(`Found ${fileIds.length} files in mapping`);
 
       const files = [];
 
@@ -544,19 +528,12 @@ Issued At: ${currentTime}`;
           };
 
           files.push(file);
-          console.log(
-            "Loaded file:",
-            file.fileName,
-            "Module:",
-            file.moduleName
-          );
         } catch (error) {
           console.error("Error processing file:", error);
           // Continue with other files even if one fails
         }
       }
 
-      console.log(`Successfully loaded ${files.length} files`);
       return files;
     } catch (error) {
       console.error("Error loading user files:", error);
@@ -572,13 +549,10 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Loading shared files for user:", userAccount.value);
-
       // Directly get shared file IDs from the mapping
       const fileIds = await DataVaultContractInstance.getSharedFiles(
         userAccount.value
       );
-      console.log(`Found ${fileIds.length} shared files in mapping`);
 
       const sharedFiles = [];
 
@@ -595,13 +569,11 @@ Issued At: ${currentTime}`;
             );
 
           if (!hasAccess) {
-            console.log("Access no longer valid for file:", fileId);
             continue;
           }
 
           const now = Math.floor(Date.now() / 1000);
           if (expiryTimestamp > 0 && expiryTimestamp <= now) {
-            console.log("Access expired for file:", fileId);
             continue;
           }
 
@@ -630,19 +602,12 @@ Issued At: ${currentTime}`;
           };
 
           sharedFiles.push(file);
-          console.log(
-            "Loaded shared file:",
-            file.fileName,
-            "from owner:",
-            file.owner
-          );
         } catch (error) {
           console.error("Error processing shared file:", error);
           // Continue with other files even if one fails
         }
       }
 
-      console.log(`Successfully loaded ${sharedFiles.length} shared files`);
       return sharedFiles;
     } catch (error) {
       console.error("Error loading shared files:", error);
@@ -661,8 +626,6 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Sharing file:", { fileId, recipient, expiryTimestamp });
-
       // Check if recipient has encryption key registered
       const hasKey = await KeyRegistryContractInstance.hasEncryptionKey(
         recipient
@@ -732,8 +695,6 @@ Issued At: ${currentTime}`;
 
       await tx.wait();
 
-      console.log("File shared successfully");
-
       return tx;
     } catch (error) {
       console.error("Failed to share file:", error);
@@ -748,16 +709,12 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Revoking access:", { fileId, recipient });
-
       const tx = await DataVaultContractInstance.revokeAccess(
         fileId,
         recipient
       );
 
       await tx.wait();
-
-      console.log("Access revoked successfully");
 
       // Update transaction in store
       walletStore.addTransaction({
@@ -784,13 +741,9 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Registering as provider");
-
       const tx = await ProviderRegistryContractInstance.registerProvider();
 
       await tx.wait();
-
-      console.log("Successfully registered as provider");
 
       walletStore.addTransaction({
         hash: tx.hash,
@@ -830,13 +783,9 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Removing provider registration");
-
       const tx = await ProviderRegistryContractInstance.removeProvider();
 
       await tx.wait();
-
-      console.log("Successfully removed provider registration");
 
       walletStore.addTransaction({
         hash: tx.hash,
@@ -859,8 +808,6 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Timestamping IP:", { fileId, ipType, description });
-
       const tx = await IPSealModuleContractInstance.timestampIP(
         fileId,
         documentHash,
@@ -869,8 +816,6 @@ Issued At: ${currentTime}`;
       );
 
       await tx.wait();
-
-      console.log("IP timestamped successfully");
 
       walletStore.addTransaction({
         hash: tx.hash,
@@ -954,8 +899,6 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Granting BioKey access:", { fileId, recipient });
-
       const tx = await BioKeyModuleContractInstance.grantAccess(
         fileId,
         recipient,
@@ -964,8 +907,6 @@ Issued At: ${currentTime}`;
       );
 
       await tx.wait();
-
-      console.log("BioKey access granted successfully");
 
       walletStore.addTransaction({
         hash: tx.hash,
@@ -988,16 +929,12 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Revoking BioKey access:", { fileId, recipient });
-
       const tx = await BioKeyModuleContractInstance.revokeAccess(
         fileId,
         recipient
       );
 
       await tx.wait();
-
-      console.log("BioKey access revoked successfully");
 
       walletStore.addTransaction({
         hash: tx.hash,
@@ -1038,16 +975,12 @@ Issued At: ${currentTime}`;
     }
 
     try {
-      console.log("Granting emergency access:", { fileId });
-
       const tx = await MediVaultModuleContractInstance.grantEmergencyAccess(
         fileId,
         encryptedProviderKey
       );
 
       await tx.wait();
-
-      console.log("Emergency access granted successfully");
 
       walletStore.addTransaction({
         hash: tx.hash,

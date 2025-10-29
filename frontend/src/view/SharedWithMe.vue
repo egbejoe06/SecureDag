@@ -371,7 +371,6 @@ const refreshFiles = async () => {
     isLoading.value = true;
     try {
         if (userAccount.value) {
-            console.log('Loading shared files for user:', userAccount.value);
             const sharedFiles = await loadSharedFiles();
 
             // Clear existing shared files and add loaded files to store
@@ -391,10 +390,6 @@ const refreshFiles = async () => {
                     size: file.size
                 });
             });
-
-            console.log(`Loaded ${sharedFiles.length} shared files`);
-        } else {
-            console.log('No user account connected, skipping shared files load');
         }
     } catch (error) {
         console.error('Failed to load shared files:', error);
@@ -480,8 +475,6 @@ const handleDownload = async (file) => {
 
         // Trigger browser download
         downloadFile(decryptedFileData, file.fileName, file.type);
-
-        console.log('File downloaded successfully:', file.fileName);
 
     } catch (error) {
         console.error('Download failed:', error);
@@ -587,7 +580,6 @@ const handleEmergencyAccess = async (file) => {
 
 const handleViewDetails = (file) => {
     // TODO: Show file details modal
-    console.log('View details for file:', file);
 };
 
 const copyFileId = async (fileId) => {
