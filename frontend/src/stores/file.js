@@ -178,9 +178,9 @@ export const useFileStore = defineStore("file", () => {
   // Helper function to get module name from module type
   function getModuleName(moduleType) {
     const moduleNames = {
+      0: "MediVault",
       1: "BioKey",
-      2: "MediVault",
-      3: "IPSeal",
+      2: "IPSeal",
     };
     return moduleNames[moduleType] || "Unknown";
   }

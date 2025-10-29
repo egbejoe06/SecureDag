@@ -26,7 +26,7 @@ export function generateDocumentHash(fileData) {
   // Convert Uint8Array to WordArray for CryptoJS
   const wordArray = CryptoJS.lib.WordArray.create(fileData);
   const hash = CryptoJS.SHA256(wordArray);
-  return hash.toString(CryptoJS.enc.Hex);
+  return "0x" + hash.toString(CryptoJS.enc.Hex);
 }
 
 /**

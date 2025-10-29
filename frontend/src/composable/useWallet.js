@@ -1082,9 +1082,9 @@ Issued At: ${currentTime}`;
   // Helper function to get module name from module type
   const getModuleName = (moduleType) => {
     const moduleNames = {
+      0: "MediVault",
       1: "BioKey",
-      2: "MediVault",
-      3: "IPSeal",
+      2: "IPSeal",
     };
     return moduleNames[moduleType] || "Unknown";
   };

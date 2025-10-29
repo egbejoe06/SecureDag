@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="p-6">
         <!-- Header -->
         <div class="bg-white shadow">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -134,6 +134,22 @@
                                     </span>
                                 </div>
                             </div>
+
+                            <!-- File ID Row -->
+                            <div
+                                class="mt-3 mx-4 flex items-center justify-between gap-2 p-2 bg-gray-50 rounded-md border border-gray-200">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs text-gray-500 truncate" :title="file.id">
+                                        <span class="font-medium">ID:</span> {{ file.id }}
+                                    </p>
+                                </div>
+                                <button @click="copyFileId(file.id)"
+                                    class="flex-shrink-0 inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                    title="Copy File ID">
+                                    <ClipboardDocumentIcon v-if="copiedFileId !== file.id" class="w-3 h-3" />
+                                    <CheckIcon v-else class="w-3 h-3 text-green-600" />
+                                </button>
+                            </div>
                         </div>
 
                         <!-- File Details -->
@@ -227,7 +243,9 @@ import {
     ShieldCheckIcon,
     DocumentIcon,
     ExclamationTriangleIcon,
-    EyeIcon
+    EyeIcon,
+    ClipboardDocumentIcon,
+    CheckIcon
 } from '@heroicons/vue/24/outline';
 import { useFileStore } from '../stores/file';
 import { useWallet } from '../composable/useWallet';
@@ -244,6 +262,7 @@ const keyStore = useKeyStore();
 const isLoading = ref(false);
 const activeTab = ref('all');
 const downloadingFileId = ref(null);
+const copiedFileId = ref(null);
 
 // Computed
 const totalSharedFiles = computed(() => fileStore.totalFilesSharedWithMe);
@@ -569,6 +588,18 @@ const handleEmergencyAccess = async (file) => {
 const handleViewDetails = (file) => {
     // TODO: Show file details modal
     console.log('View details for file:', file);
+};
+
+const copyFileId = async (fileId) => {
+    try {
+        await navigator.clipboard.writeText(fileId);
+        copiedFileId.value = fileId;
+        setTimeout(() => {
+            copiedFileId.value = null;
+        }, 2000);
+    } catch (err) {
+        console.error('Failed to copy file ID:', err);
+    }
 };
 
 // Lifecycle

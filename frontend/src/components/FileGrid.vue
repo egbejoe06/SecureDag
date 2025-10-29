@@ -116,6 +116,9 @@
                                     <p class="text-sm text-gray-500 truncate">
                                         {{ formatDate(file.createdAt) }} • {{ formatFileSize(file.size) }}
                                     </p>
+                                    <p class="text-xs text-gray-400 font-mono truncate mt-1" :title="file.id">
+                                        ID: {{ file.id }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -126,6 +129,11 @@
                                 </span>
 
                                 <div class="flex items-center space-x-2">
+                                    <button @click="copyFileId(file.id)" class="text-gray-400 hover:text-gray-600"
+                                        title="Copy File ID">
+                                        <ClipboardDocumentIcon v-if="copiedFileId !== file.id" class="w-4 h-4" />
+                                        <CheckIcon v-else class="w-4 h-4 text-green-600" />
+                                    </button>
                                     <button @click="handleDownload(file)" class="text-gray-400 hover:text-gray-600"
                                         title="Download" :disabled="downloadingFileId === file.id">
                                         <ArrowPathIcon v-if="downloadingFileId === file.id"
@@ -215,7 +223,9 @@ import {
     EllipsisVerticalIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
-    ArrowPathIcon
+    ArrowPathIcon,
+    ClipboardDocumentIcon,
+    CheckIcon
 } from '@heroicons/vue/24/outline';
 import FileCard from './FileCard.vue';
 
@@ -246,6 +256,7 @@ const viewMode = ref('grid');
 const selectedFiles = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = ref(12);
+const copiedFileId = ref(null);
 
 // Computed
 const totalFiles = computed(() => props.files.length);
@@ -363,6 +374,18 @@ const handleBulkDownload = () => {
     const files = props.files.filter(file => selectedFiles.value.includes(file.id));
     emit('bulk-download', files);
     selectedFiles.value = [];
+};
+
+const copyFileId = async (fileId) => {
+    try {
+        await navigator.clipboard.writeText(fileId);
+        copiedFileId.value = fileId;
+        setTimeout(() => {
+            copiedFileId.value = null;
+        }, 2000);
+    } catch (err) {
+        console.error('Failed to copy file ID:', err);
+    }
 };
 
 // Watchers

@@ -27,22 +27,29 @@
                     </span>
                 </div>
             </div>
+
+            <!-- File ID Row -->
+            <div class="mt-3 flex items-center justify-between gap-2 p-2 bg-gray-50 rounded-md border border-gray-200">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs text-gray-500 truncate" :title="file.id">
+                        <span class="font-medium">ID:</span> {{ file.id }}
+                    </p>
+                </div>
+                <button @click="copyFileId"
+                    class="flex-shrink-0 inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    title="Copy File ID">
+                    <ClipboardDocumentIcon v-if="!copied" class="w-3 h-3" />
+                    <CheckIcon v-else class="w-3 h-3 text-green-600" />
+                </button>
+            </div>
         </div>
 
         <!-- File Details -->
         <div class="p-4">
             <div class="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                    <span class="text-gray-500">Size:</span>
-                    <span class="ml-1 text-gray-900">{{ formatFileSize(file.size) }}</span>
-                </div>
-                <div>
                     <span class="text-gray-500">Access Count:</span>
                     <span class="ml-1 text-gray-900">{{ file.accessCount }}</span>
-                </div>
-                <div>
-                    <span class="text-gray-500">Type:</span>
-                    <span class="ml-1 text-gray-900">{{ file.type }}</span>
                 </div>
                 <div>
                     <span class="text-gray-500">Status:</span>
@@ -106,13 +113,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import {
     DocumentIcon,
     ShareIcon,
     UsersIcon,
     EllipsisVerticalIcon,
     ShieldCheckIcon,
-    ArrowPathIcon
+    ArrowPathIcon,
+    ClipboardDocumentIcon,
+    CheckIcon
 } from '@heroicons/vue/24/outline';
 
 // Props
@@ -129,6 +139,9 @@ const props = defineProps({
 
 // Emits
 const emit = defineEmits(['download', 'share', 'access-management', 'more-options']);
+
+// State
+const copied = ref(false);
 
 // Methods
 const formatDate = (dateString) => {
@@ -178,6 +191,18 @@ const handleAccessManagement = () => {
 
 const handleMoreOptions = () => {
     emit('more-options', props.file);
+};
+
+const copyFileId = async () => {
+    try {
+        await navigator.clipboard.writeText(props.file.id);
+        copied.value = true;
+        setTimeout(() => {
+            copied.value = false;
+        }, 2000);
+    } catch (err) {
+        console.error('Failed to copy file ID:', err);
+    }
 };
 </script>
 

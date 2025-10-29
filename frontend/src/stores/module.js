@@ -6,7 +6,7 @@ import { ref, computed } from "vue";
  */
 export const useModuleStore = defineStore("module", () => {
   // State
-  const currentModule = ref(null);
+  const currentModule = ref(0);
   const moduleSettings = ref({
     MediVault: {
       emergencyAccessEnabled: true,
@@ -71,25 +71,28 @@ export const useModuleStore = defineStore("module", () => {
   // Getters
   const currentModuleName = computed(() => {
     const moduleNames = {
+      0: "MediVault",
       1: "BioKey",
-      2: "MediVault",
-      3: "IPSeal",
+      2: "IPSeal",
     };
     return moduleNames[currentModule.value] || "Unknown";
   });
 
   const currentModuleSettings = computed(() => {
-    if (!currentModule.value) return null;
+    if (currentModule.value === null || currentModule.value === undefined)
+      return null;
     return moduleSettings.value[currentModuleName.value] || {};
   });
 
   const currentModuleStatistics = computed(() => {
-    if (!currentModule.value) return null;
+    if (currentModule.value === null || currentModule.value === undefined)
+      return null;
     return moduleStatistics.value[currentModuleName.value] || {};
   });
 
   const currentModulePermissions = computed(() => {
-    if (!currentModule.value) return null;
+    if (currentModule.value === null || currentModule.value === undefined)
+      return null;
     return modulePermissions.value[currentModuleName.value] || {};
   });
 

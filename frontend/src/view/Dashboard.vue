@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="p-6">
         <!-- Header -->
         <div class="bg-white shadow">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,9 +16,9 @@
                         <label class="text-sm font-medium text-gray-700">Current Module:</label>
                         <select v-model="currentModule" @change="handleModuleChange"
                             class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option value="0">MediVault</option>
                             <option value="1">BioKey</option>
-                            <option value="2">MediVault</option>
-                            <option value="3">IPSeal</option>
+                            <option value="2">IPSeal</option>
                         </select>
                     </div>
                 </div>
@@ -229,7 +229,7 @@ const keyStore = useKeyStore();
 const moduleStore = useModuleStore();
 
 // Reactive state
-const currentModule = ref('2'); // Default to MediVault
+const currentModule = ref('0'); // Default to MediVault
 
 // Computed
 const totalFiles = computed(() => fileStore.totalUploadedFiles);

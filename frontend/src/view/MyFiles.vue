@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="p-6">
         <!-- Header -->
         <div class="bg-white shadow">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,12 +125,12 @@
                                     Module Type
                                 </label>
                                 <div class="mt-1">
-                                    <select v-model="selectedModule" id="module"
+                                    <select v-model="selectedModule" id="module" @change="handleModuleChange"
                                         class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         required>
+                                        <option value="0">MediVault (Medical Files)</option>
                                         <option value="1">BioKey (Genomic Data)</option>
-                                        <option value="2">MediVault (Medical Files)</option>
-                                        <option value="3">IPSeal (Intellectual Property)</option>
+                                        <option value="2">IPSeal (Intellectual Property)</option>
                                     </select>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                             </div>
 
                             <!-- IP Timestamping Fields (only for IPSeal module) -->
-                            <div v-if="selectedModule === '3'">
+                            <div v-if="selectedModule === '2'">
                                 <div class="mb-4">
                                     <label for="ip-type" class="block text-sm font-medium text-gray-700">
                                         IP Type
@@ -342,7 +342,8 @@ const showAccessModal = ref(false);
 const showSuccessModal = ref(false);
 const selectedFile = ref(null);
 const selectedFileForUpload = ref(null);
-const selectedModule = ref('2');
+const selectedModule = ref('0');
+const moduleSelectionManuallyChanged = ref(false);
 const description = ref('');
 const isUploading = ref(false);
 const uploadError = ref('');
@@ -364,17 +365,33 @@ const accessToExtend = ref(null);
 const uploadedFiles = computed(() => fileStore.uploadedFiles);
 
 // Methods
+const handleModuleChange = () => {
+    moduleSelectionManuallyChanged.value = true;
+
+    const moduleValue = parseInt(selectedModule.value);
+    if (!Number.isNaN(moduleValue)) {
+        moduleStore.setCurrentModule(moduleValue);
+    }
+};
+
 const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file) {
         selectedFileForUpload.value = file;
-        // Auto-select module based on file type
-        if (file.type.includes('image') || file.name.toLowerCase().includes('medical')) {
-            selectedModule.value = '2'; // MediVault
-        } else if (file.name.toLowerCase().includes('genomic') || file.name.toLowerCase().includes('dna')) {
-            selectedModule.value = '1'; // BioKey
-        } else if (file.name.toLowerCase().includes('patent') || file.name.toLowerCase().includes('copyright')) {
-            selectedModule.value = '3'; // IPSeal
+        // Auto-select module based on file type when user hasn't chosen manually
+        if (!moduleSelectionManuallyChanged.value) {
+            if (file.type.includes('image') || file.name.toLowerCase().includes('medical')) {
+                selectedModule.value = '0'; // MediVault
+            } else if (file.name.toLowerCase().includes('genomic') || file.name.toLowerCase().includes('dna')) {
+                selectedModule.value = '1'; // BioKey
+            } else if (file.name.toLowerCase().includes('patent') || file.name.toLowerCase().includes('copyright')) {
+                selectedModule.value = '2'; // IPSeal
+            }
+        }
+
+        const moduleValue = parseInt(selectedModule.value);
+        if (!Number.isNaN(moduleValue)) {
+            moduleStore.setCurrentModule(moduleValue);
         }
     }
 };
@@ -462,11 +479,10 @@ const handleUpload = async () => {
         await tx.wait();
 
         // If IPSeal module, add IP timestamping
-        if (parseInt(selectedModule.value) === 3) {
+        if (parseInt(selectedModule.value) === 2) {
             try {
                 // Generate document hash from original file data
-                const documentHashHex = generateDocumentHash(fileData);
-                const documentHash = ethers.utils.keccak256(documentHashHex);
+                const documentHash = generateDocumentHash(fileData);
 
                 // Call IP timestamping
                 const ipSealContract = getIPSealModuleContract();
@@ -518,9 +534,10 @@ const handleUpload = async () => {
 const closeUploadModal = () => {
     showUploadModal.value = false;
     selectedFileForUpload.value = null;
-    selectedModule.value = '2';
+    selectedModule.value = '0';
     description.value = '';
     uploadError.value = '';
+    moduleSelectionManuallyChanged.value = false;
     // Reset IP fields
     ipType.value = 'patent';
     ipDescription.value = '';
