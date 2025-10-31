@@ -177,6 +177,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import {
     WalletIcon,
     InformationCircleIcon,
@@ -186,6 +187,7 @@ import {
     HeartIcon,
     DocumentTextIcon
 } from '@heroicons/vue/24/outline';
+import { useWallet } from '../composable/useWallet';
 
 // Custom DNA icon component (since it's not in Heroicons)
 const DnaIcon = {
@@ -197,6 +199,10 @@ const DnaIcon = {
     `
 };
 
+// Composables
+const router = useRouter();
+const { connectWallet: connectWalletHook } = useWallet();
+
 // Reactive state
 const isConnecting = ref(false);
 
@@ -204,8 +210,9 @@ const isConnecting = ref(false);
 const connectWallet = async () => {
     isConnecting.value = true;
     try {
-        // TODO: Implement wallet connection
-        // This would typically navigate to the main app or dashboard
+        await connectWalletHook();
+        // Navigate to dashboard after successful connection
+        router.push('/dashboard');
     } catch (error) {
         console.error('Failed to connect wallet:', error);
     } finally {
